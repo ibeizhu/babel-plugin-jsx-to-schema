@@ -136,6 +136,7 @@ module.exports = function({ types: t }) {
         'h5',
         'div',
         'span',
+        'a',
       ];
       const textAttributeName = 'data_text';
       let node = path.node.openingElement;
