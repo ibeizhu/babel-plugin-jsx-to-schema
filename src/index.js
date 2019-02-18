@@ -139,6 +139,7 @@ module.exports = function({ types: t }) {
         'span',
         'a',
         'li',
+        'Button',
       ];
       const textAttributeName = 'data_text';
       let node = path.node.openingElement;
