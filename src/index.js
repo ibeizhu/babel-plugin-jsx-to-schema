@@ -49,7 +49,7 @@ module.exports = function({ types: t }) {
       if (styleObjectProperty.key.name === styleKey) {
         result = styleObjectProperty.value;
       } else {
-        result = t.ObjectExpression([]);
+        // result = t.ObjectExpression([]);
       }
     });
     return result;
@@ -142,6 +142,8 @@ module.exports = function({ types: t }) {
         'a',
         'li',
         'Button',
+        'Checkbox',
+        'Option',
       ];
       const textAttributeName = 'data_text';
       let node = path.node.openingElement;
