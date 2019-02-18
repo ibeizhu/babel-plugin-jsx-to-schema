@@ -48,6 +48,8 @@ module.exports = function({ types: t }) {
     properties.forEach(styleObjectProperty => {
       if (styleObjectProperty.key.name === styleKey) {
         result = styleObjectProperty.value;
+      } else {
+        result = t.ObjectExpression([]);
       }
     });
     return result;
@@ -152,7 +154,7 @@ module.exports = function({ types: t }) {
           node.attributes.push(t.JSXAttribute(attrName, attrValue));
           children = [];
         } else if (children.length > 1) {
-          children.map((item) => {
+          children.map(item => {
             if (t.isJSXText(item)) {
               let text = item.node.value;
               item.node = t.JSXElement(
