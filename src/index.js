@@ -134,23 +134,34 @@ module.exports = function({ types: t }) {
         'h3',
         'h4',
         'h5',
+        'h6',
         'div',
         'span',
         'a',
+        'li',
       ];
       const textAttributeName = 'data_text';
       let node = path.node.openingElement;
       let elementName = node.name.name;
-      if (
-        standardDomElements.indexOf(elementName) > -1 &&
-        children.length === 1 &&
-        t.isJSXText(children[0])
-      ) {
-        let text = children[0].node.value;
-        let attrName = t.JSXIdentifier(textAttributeName);
-        let attrValue = t.StringLiteral(text);
-        node.attributes.push(t.JSXAttribute(attrName, attrValue));
-        children = [];
+      if (standardDomElements.indexOf(elementName) > -1) {
+        if (children.length === 1 && t.isJSXText(children[0])) {
+          let text = children[0].node.value;
+          let attrName = t.JSXIdentifier(textAttributeName);
+          let attrValue = t.StringLiteral(text);
+          node.attributes.push(t.JSXAttribute(attrName, attrValue));
+          children = [];
+        } else if (children.length > 1) {
+          children.map((item) => {
+            if (t.isJSXText(item)) {
+              let text = item.node.value;
+              item.node = t.JSXElement(
+                t.JSXOpeningElement(t.JSXIdentifier('span'), [], false),
+                t.JSXClosingElement(t.JSXIdentifier('span')),
+                [t.JSXText(text)]
+              );
+            }
+          });
+        }
       }
     }
     return children;
@@ -195,10 +206,7 @@ module.exports = function({ types: t }) {
       : t.ArrayExpression([]);
 
     return t.ObjectExpression([
-      t.ObjectProperty(
-        t.StringLiteral(OPTIONS.type),
-        type
-      ),
+      t.ObjectProperty(t.StringLiteral(OPTIONS.type), type),
       t.ObjectProperty(t.StringLiteral(OPTIONS.attributes), attributes),
       t.ObjectProperty(t.StringLiteral(OPTIONS.children), children),
     ]);
