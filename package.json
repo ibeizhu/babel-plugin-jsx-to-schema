@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-jsx-to-schema",
   "description": "babel plugin that can transform react jsx code to schema object",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "lib/index.js",
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -21,7 +21,10 @@
     "type": "git",
     "url": "git+https://github.com/frontMoment/babel-plugin-jsx-to-schema.git"
   },
-  "author": "",
+  "author": {
+    "name": "beizhu",
+    "email": "ibeizhu@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/frontMoment/babel-plugin-jsx-to-schema/issues"

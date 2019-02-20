@@ -7,6 +7,12 @@ module.exports = function({ types: t }) {
   let STYLE_VARIABLE_DECLARATOR = null;
   let STYLE_VARIABLE_NAME = '';
 
+  const DEFAULT_OPTS = {
+    component: 'component',
+    attributes: 'props',
+    children: 'children',
+  };
+
   /**
    * find global style or styles variable
    * @param path
@@ -111,10 +117,111 @@ module.exports = function({ types: t }) {
   }
 
   /**
+   * transform JSXAttribute to ObjectExpression
+   * @param nodes
+   * @return {[*]}
+   */
+  const transformJSXAttributeToObjectExpression = nodes => {
+    return [
+      t.ObjectExpression(
+        nodes.map(node => {
+          let name = t.StringLiteral(node.name.name);
+          let value;
+          if (!node.value) {
+            value = t.BooleanLiteral(true);
+          } else if (/JSXExpressionContainer/i.test(node.value.type)) {
+            value = node.value.expression;
+            if (
+              !t.isStringLiteral(value) &&
+              !t.isNumericLiteral(value) &&
+              !t.isBooleanLiteral(value)
+            ) {
+              // some dynamic variable attributes can not be analysed
+              // replace with constant string
+              const attributeName = name.value;
+              switch (attributeName) {
+                case 'style': {
+                  if (STYLE_VARIABLE_DECLARATOR) {
+                    let result = buildStyleObjectExpression(value);
+                    if (result) {
+                      value = result;
+                    }
+                  }
+                  break;
+                }
+                case 'src': {
+                  value = t.StringLiteral(
+                    'https://gw.alicdn.com/tfs/TB11pUKDiLaK1RjSZFxXXamPFXa-400-400.png'
+                  );
+                  break;
+                }
+                case 'href': {
+                  value = t.StringLiteral('#path');
+                  break;
+                }
+                default: {
+                  value = t.StringLiteral('PlaceHolder Text');
+                  break;
+                }
+              }
+            }
+          } else {
+            value = node.value;
+          }
+          return t.ObjectProperty(name, value);
+        })
+      ),
+    ];
+  };
+
+  /**
+   * generateAttributeObjectProperty
+   * @param attributes
+   * @param file
+   * @return {*}
+   */
+  const generateAttributeObjectProperty = (attributes, file) => {
+    let attrExpressions = [];
+    let spreadAttributes = [];
+    let attrObjectPropertyNode = null;
+
+    while (attributes.length) {
+      let attr = attributes.shift();
+      if (/^JSXSpreadAttribute$/i.test(attr.type)) {
+        spreadAttributes.push(attr.argument);
+      } else {
+        attrExpressions.push(attr);
+      }
+    }
+    if (attrExpressions.length) {
+      attrObjectPropertyNode = transformJSXAttributeToObjectExpression(
+        attrExpressions
+      );
+    }
+
+    if (spreadAttributes.length) {
+      let extendAttr = spreadAttributes;
+      if (attrObjectPropertyNode) {
+        extendAttr = spreadAttributes.concat(attrObjectPropertyNode);
+      }
+      if (extendAttr.length > 1) {
+        extendAttr.unshift(t.ObjectExpression([]));
+      }
+      attrObjectPropertyNode = t.callExpression(
+        file.addHelper('extends'),
+        extendAttr
+      );
+    } else {
+      attrObjectPropertyNode = attrObjectPropertyNode[0];
+    }
+    return attrObjectPropertyNode;
+  };
+
+  /**
    * decorate JSXText accord PI schema spec
    * @param path
    */
-  function decorateJSXElementChildren(path) {
+  const decorateJSXElementChildren = path => {
     let children = path.get('children');
     if (Array.isArray(children)) {
       // filter empty JSXText
@@ -170,7 +277,7 @@ module.exports = function({ types: t }) {
       }
     }
     return children;
-  }
+  };
 
   /**
    * transform JSXElement to ObjectExpression
@@ -178,128 +285,36 @@ module.exports = function({ types: t }) {
    * @param state
    * @return {*}
    */
-  const generateElement = (path, state) => {
-    const FILE = state.file;
-    const OPTIONS = Object.assign(
-      {},
-      {
-        type: 'component',
-        extends: 'extends',
-        attributes: 'props',
-        children: 'children',
-      },
-      state.opts
-    );
+  const traverseJSXElement = (path, state) => {
+    const options = Object.assign({}, DEFAULT_OPTS, state.opts);
 
-    const NODE = path.node;
-
-    if (!/JSXElement/.test(NODE.type)) {
-      return NODE.expression ? NODE.expression : t.StringLiteral(NODE.value);
+    const node = path.node;
+    if (!/JSXElement/.test(node.type)) {
+      return node.expression ? node.expression : t.StringLiteral(node.value);
     }
 
-    let OPENING_ELEMENT = NODE.openingElement;
-    let ELEMENT_ATTRIBUTES = OPENING_ELEMENT.attributes;
+    let attributes = node.openingElement.attributes;
+    let children = decorateJSXElementChildren(path);
 
-    let CHILDREN = decorateJSXElementChildren(path);
-
-    let type = t.StringLiteral(getJSXElementName(OPENING_ELEMENT.name));
-    let attributes = ELEMENT_ATTRIBUTES.length
-      ? buildAttributeObject(ELEMENT_ATTRIBUTES, FILE)
-      : t.NullLiteral();
-    let children = CHILDREN.length
-      ? t.ArrayExpression(CHILDREN.map(child => generateElement(child, state)))
-      : t.ArrayExpression([]);
+    let elementNameNode = t.StringLiteral(
+      getJSXElementName(node.openingElement.name)
+    );
+    let attributesNode = t.NullLiteral();
+    if (attributes.length) {
+      attributesNode = generateAttributeObjectProperty(attributes, state.file);
+    }
+    let childrenNode = t.ArrayExpression([]);
+    if (children.length) {
+      childrenNode = t.ArrayExpression(
+        children.map(child => traverseJSXElement(child, state))
+      );
+    }
 
     return t.ObjectExpression([
-      t.ObjectProperty(t.StringLiteral(OPTIONS.type), type),
-      t.ObjectProperty(t.StringLiteral(OPTIONS.attributes), attributes),
-      t.ObjectProperty(t.StringLiteral(OPTIONS.children), children),
+      t.ObjectProperty(t.StringLiteral(options.component), elementNameNode),
+      t.ObjectProperty(t.StringLiteral(options.attributes), attributesNode),
+      t.ObjectProperty(t.StringLiteral(options.children), childrenNode),
     ]);
-  };
-
-  /**
-   * transform JSXAttribute to ObjectExpression
-   * @param nodes
-   * @return {[*]}
-   */
-  const generateAttrObject = nodes => {
-    let arr = nodes.map(node => {
-      let name = t.StringLiteral(node.name.name);
-      let value;
-      if (!node.value) {
-        value = t.BooleanLiteral(true);
-      } else if (/JSXExpressionContainer/i.test(node.value.type)) {
-        value = node.value.expression;
-        if (
-          !t.isStringLiteral(value) &&
-          !t.isNumericLiteral(value) &&
-          !t.isBooleanLiteral(value)
-        ) {
-          // some dynamic variable attributes can not be analysed
-          // replace with constant string
-          const attributeName = name.value;
-          switch (attributeName) {
-            case 'style': {
-              if (STYLE_VARIABLE_DECLARATOR) {
-                let result = buildStyleObjectExpression(value);
-                if (result) {
-                  value = result;
-                }
-              }
-              break;
-            }
-            case 'src': {
-              value = t.StringLiteral(
-                'https://gw.alicdn.com/tfs/TB11pUKDiLaK1RjSZFxXXamPFXa-400-400.png'
-              );
-              break;
-            }
-            case 'href': {
-              value = t.StringLiteral('#path');
-              break;
-            }
-            default: {
-              value = t.StringLiteral('PlaceHolder Text');
-              break;
-            }
-          }
-        }
-      } else {
-        value = node.value;
-      }
-      return t.ObjectProperty(name, value);
-    });
-
-    return [t.ObjectExpression(arr)];
-  };
-
-  const buildAttributeObject = function(attrs, file) {
-    let _expressions = [],
-      _spreads = [];
-
-    while (attrs.length) {
-      let attr = attrs.shift();
-
-      /^JSXSpreadAttribute$/i.test(attr.type)
-        ? _spreads.push(attr.argument)
-        : _expressions.push(attr);
-    }
-
-    let attrObject = _expressions.length
-      ? generateAttrObject(_expressions)
-      : null;
-
-    if (_spreads.length) {
-      let extension = attrObject ? _spreads.concat(attrObject) : _spreads;
-
-      if (extension.length > 1) extension.unshift(t.ObjectExpression([]));
-
-      attrObject = t.callExpression(file.addHelper('extends'), extension);
-    } else {
-      attrObject = attrObject[0];
-    }
-
-    return attrObject;
   };
 
   return {
@@ -314,7 +329,7 @@ module.exports = function({ types: t }) {
         findStyleVariableDeclarator(path, state);
       },
       JSXElement: function(path, state) {
-        path.replaceWith(generateElement(path, state));
+        path.replaceWith(traverseJSXElement(path, state));
       },
       ClassMethod: {
         exit: function(path, state) {

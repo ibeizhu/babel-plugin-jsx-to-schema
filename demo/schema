@@ -1,0 +1,314 @@
+{
+  'component': 'div',
+  'props': {
+    'style': styles.container1
+  },
+  'children': [{
+    'component': 'div',
+    'props': {
+      'style': {
+        width: '1200px',
+        margin: '0 auto',
+        position: 'relative'
+      }
+    },
+    'children': [{
+      'component': 'div',
+      'props': {
+        'style': {
+          fontSize: '60px',
+          color: '#fff',
+          letterSpacing: '0.77px',
+          lineHeight: '72px',
+          margin: '0',
+          fontWeight: '700'
+        },
+        'data_text': 'ABOUT'
+      },
+      'children': []
+    }, {
+      'component': 'div',
+      'props': {
+        'style': {
+          fontSize: '24px',
+          lineHeight: '30px',
+          color: '#fff',
+          marginTop: '8px',
+          fontWeight: '700'
+        },
+        'data_text': '\u5173\u4E8E\u963F\u91CC\u4E91'
+      },
+      'children': []
+    }, {
+      'component': 'div',
+      'props': {
+        'style': {
+          position: 'absolute',
+          right: '10px',
+          top: '66px',
+          overflow: 'hidden'
+        }
+      },
+      'children': [{
+        'component': 'div',
+        'props': {
+          'style': {
+            float: 'left',
+            cursor: 'pointer',
+            fontSize: '26px',
+            lineHeight: '30px',
+            color: 'hsla(0,0%,100%,.5)',
+            marginLeft: '30px',
+            padding: '14px 0',
+            borderBottom: '1px solid transparent',
+            transition: 'all .3s'
+          },
+          'data_text': '\u4F01\u4E1A\u7EA7'
+        },
+        'children': []
+      }, {
+        'component': 'div',
+        'props': {
+          'style': { float: 'left', cursor: 'pointer', fontSize: '26px', lineHeight: '30px', color: 'hsla(0,0%,100%,.5)', marginLeft: '30px', padding: '14px 0', borderBottom: '1px solid transparent', transition: 'all .3s' },
+          'data_text': '\u4E2A\u4EBA\u7EA7'
+        },
+        'children': []
+      }]
+    }, {
+      'component': 'div',
+      'props': {
+        'style': {
+          overflow: 'hidden',
+          paddingTop: '50px'
+        }
+      },
+      'children': [{
+        'component': 'div',
+        'props': null,
+        'children': [{
+          'component': 'div',
+          'props': {
+            'style': {
+              height: '80px',
+              background: '#191a1e',
+              position: 'relative',
+              paddingRight: '40px',
+              marginTop: '20px',
+              transition: 'all .3s'
+            },
+            'key': '0'
+          },
+          'children': [{
+            'component': 'div',
+            'props': {
+              'style': {
+                position: 'absolute',
+                left: '0',
+                top: '0',
+                height: '80px',
+                overflow: 'hidden'
+              }
+            },
+            'children': [{
+              'component': 'div',
+              'props': {
+                'style': {
+                  float: 'left',
+                  fontSize: '42px',
+                  width: '80px',
+                  height: '80px',
+                  lineHeight: '80px',
+                  fontWeight: '700',
+                  color: '#fff',
+                  textAlign: 'center',
+                  background: '#236cff'
+                },
+                'data_text': '123'
+              },
+              'children': []
+            }, {
+              'component': 'div',
+              'props': {
+                'style': {
+                  float: 'left',
+                  maxWidth: '255px',
+                  fontSize: '20px',
+                  lineHeight: '80px',
+                  color: '#fff',
+                  paddingLeft: '40px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden'
+                },
+                'data_text': '\u4E91\u5B58\u50A8\u7279\u60E0'
+              },
+              'children': []
+            }]
+          }, {
+            'component': 'div',
+            'props': {
+              'style': {
+                paddingLeft: '335px',
+                paddingRight: '180px',
+                height: '80px',
+                overflow: 'hidden'
+              }
+            },
+            'children': [{
+              'component': 'div',
+              'props': {
+                'style': {
+                  fontSize: '14px',
+                  lineHeight: '24px',
+                  color: 'hsla(0,0%,100%,.8)',
+                  marginTop: '28px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                },
+                'data_text': '\u4E0A\u4E91\u4EC533\u5143/\u5E74\uFF0C\u964D\u4F4E\u4F01\u4E1A\u6210\u672C'
+              },
+              'children': []
+            }]
+          }, {
+            'component': 'div',
+            'props': {
+              'style': {
+                position: 'absolute',
+                right: '40px',
+                top: '20px'
+              }
+            },
+            'children': [{
+              'component': 'a',
+              'props': {
+                'href': '#',
+                'style': {
+                  display: 'inline-block',
+                  width: '160px',
+                  height: '40px',
+                  border: '1px solid #fff',
+                  lineHeight: '38px',
+                  fontSize: '16px',
+                  color: '#fff',
+                  textDecoration: 'none',
+                  textAlign: 'center',
+                  transition: 'all .3s'
+                },
+                'data_text': '\u67E5\u770B\u8BE6\u60C5'
+              },
+              'children': []
+            }]
+          }]
+        }, {
+          'component': 'div',
+          'props': {
+            'style': { height: '80px', background: '#191a1e', position: 'relative', paddingRight: '40px', marginTop: '20px', transition: 'all .3s' },
+            'key': '1'
+          },
+          'children': [{
+            'component': 'div',
+            'props': {
+              'style': { position: 'absolute', left: '0', top: '0', height: '80px', overflow: 'hidden' }
+            },
+            'children': [{
+              'component': 'div',
+              'props': {
+                'style': { float: 'left', fontSize: '42px', width: '80px', height: '80px', lineHeight: '80px', fontWeight: '700', color: '#fff', textAlign: 'center', background: '#236cff' },
+                'data_text': '123'
+              },
+              'children': []
+            }, {
+              'component': 'div',
+              'props': {
+                'style': { float: 'left', maxWidth: '255px', fontSize: '20px', lineHeight: '80px', color: '#fff', paddingLeft: '40px', whiteSpace: 'nowrap', overflow: 'hidden' },
+                'data_text': '\u4E91\u5B58\u50A8\u7279\u60E0'
+              },
+              'children': []
+            }]
+          }, {
+            'component': 'div',
+            'props': {
+              'style': { paddingLeft: '335px', paddingRight: '180px', height: '80px', overflow: 'hidden' }
+            },
+            'children': [{
+              'component': 'div',
+              'props': {
+                'style': { fontSize: '14px', lineHeight: '24px', color: 'hsla(0,0%,100%,.8)', marginTop: '28px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
+                'data_text': '\u4E0A\u4E91\u4EC533\u5143/\u5E74\uFF0C\u964D\u4F4E\u4F01\u4E1A\u6210\u672C'
+              },
+              'children': []
+            }]
+          }, {
+            'component': 'div',
+            'props': {
+              'style': { position: 'absolute', right: '40px', top: '20px' }
+            },
+            'children': [{
+              'component': 'a',
+              'props': {
+                'href': '#',
+                'style': { display: 'inline-block', width: '160px', height: '40px', border: '1px solid #fff', lineHeight: '38px', fontSize: '16px', color: '#fff', textDecoration: 'none', textAlign: 'center', transition: 'all .3s' },
+                'data_text': '\u67E5\u770B\u8BE6\u60C5'
+              },
+              'children': []
+            }]
+          }]
+        }, {
+          'component': 'div',
+          'props': {
+            'style': { height: '80px', background: '#191a1e', position: 'relative', paddingRight: '40px', marginTop: '20px', transition: 'all .3s' },
+            'key': '2'
+          },
+          'children': [{
+            'component': 'div',
+            'props': {
+              'style': { position: 'absolute', left: '0', top: '0', height: '80px', overflow: 'hidden' }
+            },
+            'children': [{
+              'component': 'div',
+              'props': {
+                'style': { float: 'left', fontSize: '42px', width: '80px', height: '80px', lineHeight: '80px', fontWeight: '700', color: '#fff', textAlign: 'center', background: '#236cff' },
+                'data_text': '123'
+              },
+              'children': []
+            }, {
+              'component': 'div',
+              'props': {
+                'style': { float: 'left', maxWidth: '255px', fontSize: '20px', lineHeight: '80px', color: '#fff', paddingLeft: '40px', whiteSpace: 'nowrap', overflow: 'hidden' },
+                'data_text': '\u4E91\u5B58\u50A8\u7279\u60E0'
+              },
+              'children': []
+            }]
+          }, {
+            'component': 'div',
+            'props': {
+              'style': { paddingLeft: '335px', paddingRight: '180px', height: '80px', overflow: 'hidden' }
+            },
+            'children': [{
+              'component': 'div',
+              'props': {
+                'style': { fontSize: '14px', lineHeight: '24px', color: 'hsla(0,0%,100%,.8)', marginTop: '28px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
+                'data_text': '\u4E0A\u4E91\u4EC533\u5143/\u5E74\uFF0C\u964D\u4F4E\u4F01\u4E1A\u6210\u672C'
+              },
+              'children': []
+            }]
+          }, {
+            'component': 'div',
+            'props': {
+              'style': { position: 'absolute', right: '40px', top: '20px' }
+            },
+            'children': [{
+              'component': 'a',
+              'props': {
+                'href': '#',
+                'style': { display: 'inline-block', width: '160px', height: '40px', border: '1px solid #fff', lineHeight: '38px', fontSize: '16px', color: '#fff', textDecoration: 'none', textAlign: 'center', transition: 'all .3s' },
+                'data_text': '\u67E5\u770B\u8BE6\u60C5'
+              },
+              'children': []
+            }]
+          }]
+        }]
+      }]
+    }]
+  }]
+}
