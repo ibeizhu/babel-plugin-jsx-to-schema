@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-jsx-to-schema",
-  "description": "babel plugin that can transform react jsx code to schema object",
+  "description": "babel plugin that can transform react jsx code to json schema",
   "version": "0.1.8",
   "main": "lib/index.js",
   "devDependencies": {

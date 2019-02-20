@@ -26,37 +26,25 @@ function toJson(code) {
 }
 
 function getCode() {
-  return `import React, { Component } from 'react';
+  return `
+import React, { Component } from 'react';
 
 export default class About extends Component {
   static displayName = 'About';
-
   static propTypes = {};
-
   static defaultProps = {};
-
   constructor(props) {
     super(props);
     this.state = {};
   }
-
   render() {
     return (
-      <div style={styles.container1}>
+      <div style={styles.container}>
         <div style={styles.content}>
           <div style={styles.mainTitle}>ABOUT</div>
           <div style={styles.mainDesc}>关于阿里云</div>
-          <div style={styles.tab}>
-            <div
-              style={{ ...styles.tabName, ...styles.first, ...styles.active }}
-            >
-              企业级
-            </div>
-            <div style={{ ...styles.tabName }}>个人级</div>
-          </div>
           <div style={styles.items}>
-            <div>
-              <div style={styles.tabList} key="0">
+            <div style={styles.tabList}>
                 <div style={styles.left}>
                   <div style={styles.num}>123</div>
                   <div style={styles.title}>云存储特惠</div>
@@ -72,46 +60,12 @@ export default class About extends Component {
                   </a>
                 </div>
               </div>
-              <div style={styles.tabList} key="1">
-                <div style={styles.left}>
-                  <div style={styles.num}>123</div>
-                  <div style={styles.title}>云存储特惠</div>
-                </div>
-                <div style={styles.middle}>
-                  <div style={styles.desc}>
-                    上云仅33元/年，降低企业成本
-                  </div>
-                </div>
-                <div style={styles.btnBox}>
-                  <a href="#" style={styles.btnLink}>
-                    查看详情
-                  </a>
-                </div>
-              </div>
-              <div style={styles.tabList} key="2">
-                <div style={styles.left}>
-                  <div style={styles.num}>123</div>
-                  <div style={styles.title}>云存储特惠</div>
-                </div>
-                <div style={styles.middle}>
-                  <div style={styles.desc}>
-                    上云仅33元/年，降低企业成本
-                  </div>
-                </div>
-                <div style={styles.btnBox}>
-                  <a href="#" style={styles.btnLink}>
-                    查看详情
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     );
   }
 }
-
 const styles = {
   container: {
     padding: '50px 0',
@@ -238,5 +192,5 @@ const styles = {
     transition: 'all .3s',
   },
 };
-`;
+`
 }

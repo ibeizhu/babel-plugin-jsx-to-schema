@@ -1,8 +1,13 @@
 # babel-plugin-jsx-to-schema
 
-babel plugin that can transform react jsx code to schema object
+[**Babel 6 Plugin**] transform react jsx code to json schema 
 
-**Babel 6 Plugin**
+![Image](https://img.alicdn.com/tfs/TB1DXxAH3TqK1RjSZPhXXXfOFXa-1331-827.png)
+
+## Install
+```
+npm i babel-plugin-jsx-to-schema -S
+```
 
 ## Usage
 
@@ -17,6 +22,6 @@ const code = fs.readFileSync(path.join('./', 'code.js'));
 const result = babel.transform(code, {
     plugins: [jsxToSchemaPlugin],
 });
-
-fs.writeFileSync(path.join('./', 'schema'), result.code);
 ```
+
+## Reference `demo` file for details

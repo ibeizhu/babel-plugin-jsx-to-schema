@@ -1,5 +1,5 @@
 /**
- * babel plugin that can transform react jsx code to schema object
+ * babel plugin that can transform react jsx code to json schema
  * @param t
  * @return {{inherits: *, visitor: {JSXElement: visitor.JSXElement}}}
  */
